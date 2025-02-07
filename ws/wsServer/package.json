@@ -1,0 +1,15 @@
+{
+  "name": "wsServer",
+  "version": "1.0.0",
+  "description": "A simple WebSocket Echo Server in Node.js.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },,
+  "author": "uddhav8",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

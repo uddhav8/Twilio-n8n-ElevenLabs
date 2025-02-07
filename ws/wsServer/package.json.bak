@@ -1,0 +1,23 @@
+{
+  "name": "symartsyde-twilio-n8n",
+  "version": "1.0.0",
+  "description": "A simple WebSocket Server in Node.js connecting Twilio and Eleven Labs.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adides21/Symartsyde-Twilio-n8n.git"
+  },
+  "author": "uddhav8",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Adides21/Symartsyde-Twilio-n8n/issues"
+  },
+  "homepage": "https://github.com/Adides21/Symartsyde-Twilio-n8n#readme",
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
