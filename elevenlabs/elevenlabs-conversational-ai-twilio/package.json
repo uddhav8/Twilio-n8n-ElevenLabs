@@ -1,5 +1,5 @@
 {
-  "name": "elevenlabs-conversational-ai-nodejs-app",
+  "name": "elevenlabs-conversational-ai-twilio",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
