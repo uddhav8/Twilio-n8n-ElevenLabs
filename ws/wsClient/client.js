@@ -2,8 +2,8 @@
 
 // Defining constants
 const WebSocket = require('ws');
-//const wsServerAddress = "ws://127.0.0.1:5000";
-const wsServerAddress = "wss://echo-wsserver.glitch.me";
+const wsServerAddress = "ws://127.0.0.1:5000"; // Use for localhost.
+//const wsServerAddress = "wss://echo-wsserver.glitch.me"; // Switch to this and add your URL for hosted server,
 
 // Connect to WS Server
 const ws = new WebSocket(wsServerAddress, {
