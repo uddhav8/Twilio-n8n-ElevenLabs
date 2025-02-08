@@ -3,15 +3,8 @@
 // Listen to Media messages and send them back to twilio.
 
 const WebSocket = require('ws');
-const dotenv = require('dotenv');
-const Fastify = require('fastify');
-const fastifyFormBody = require('@fastify/formbody');
-const fastifyWs = require('@fastify/websocket');
 
 const PORT = process.env.PORT || 3000;
-
-// Load environment variables from .env file
-dotenv.config();
 
 // Create a WebSocket server
 const wsServer = new WebSocket.Server({ port: PORT });
@@ -65,7 +58,7 @@ wsServer.on('connection', (ws) => {
                     break;
             }
         } catch (error) {
-            console.error("[ERROR] Failed to process Twilio message:", error.message);
+            console.error("[ERROR] Error parsing Twilio message:", error.message);
         }
     });
     ws.on('close', async () => {

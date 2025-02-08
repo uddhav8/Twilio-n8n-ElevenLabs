@@ -9,8 +9,8 @@ const wsServerAddress = "ws://127.0.0.1:5000"; // Use for localhost.
 const ws = new WebSocket(wsServerAddress, {
     headers: {
         "user-agent": "Mozilla"
-    }
-}) // Glitch.com requires for any incoming calls a user agents specified 
+    } // Glitch.com requires for any incoming calls a user agents specified 
+})
 
 ws.on('open', function () {
     //console.log("WebSocket connection opened");

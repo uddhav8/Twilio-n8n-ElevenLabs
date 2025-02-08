@@ -4,12 +4,11 @@
 
 // Defining constants
 const WebSocket = require('ws');
+
 const PORT = 5000;
 
 // WebSocket server setup
-const wsServer = new WebSocket.Server({
-  port: PORT
-});
+const wsServer = new WebSocket.Server({port: PORT});
 
 console.log ((new Date()) + "Serve is listening on port " + PORT);
 
