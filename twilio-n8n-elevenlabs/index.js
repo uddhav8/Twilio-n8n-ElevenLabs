@@ -23,7 +23,7 @@ wsServer.on('connection', (ws) => {
 
     // Set up ElevenLabs connection
     //async function setupElevenLabs() {
-    const setupElevenLabs = async () => {
+    const setupElevenLabs = async (customParameters_user_name) => {
         try {
             // Connect to ElevenLabs Conversational AI WebSocket
             const signedUrl = await getSignedUrl();
@@ -44,7 +44,6 @@ wsServer.on('connection', (ws) => {
 
                 // Send required dynamic variables first
                 const initMessage = {
-                    type: "conversation_initiation",
                     dynamic_variables: {
                         user_name: customParameters_user_name,
                     }
@@ -147,9 +146,6 @@ wsServer.on('connection', (ws) => {
         }
     };
 
-    // Start the WebSocket connection to ElevenLabs
-    setupElevenLabs();
-
     // Handle incoming messages from ws client (Twilio)
     ws.on('error', async (error) => {
         console.error("[ws] WebSocket Error:", error);
@@ -170,11 +166,13 @@ wsServer.on('connection', (ws) => {
                     streamSid = msg.start.streamSid;
                     callSid = msg.start.callSid;
                     customParameters = msg.start.customParameters || {};  // Ensure it's an object
-                    customParameters_user_name = customParameters.user_name || "Unknown";  // Store parameters
+                    const customParameters_user_name = customParameters.user_name || "Unknown";  // Store parameters
 
                     console.log(`[Twilio] Stream started - StreamSid: ${streamSid}, CallSid: ${callSid}`);
                     console.log("[Twilio] Custom Parameters:", customParameters);  // Log full object
                     console.log(`[Twilio] Extracted User Name: ${customParameters_user_name}`);
+                    // Start the WebSocket connection to ElevenLabs
+                    setupElevenLabs(customParameters_user_name);
                     break;
                 case "media":
                     //console.log("[Twilio] Media event received");
