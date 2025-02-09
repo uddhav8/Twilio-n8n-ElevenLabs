@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say>Hello, this is a call from Twilio. Connecting to the WebSocket server</Say>
+  <Say>Hello, this is a call from Twilio. Connecting you with the WebSocket Server</Say>
   <Connect>
-    <Stream url="wss://twilioxelevenlabs.glitch.me" />
+    <Stream url="wss://d0b1-2a09-bac5-3aff-1aa0-00-2a7-dc.ngrok-free.app" />
+      <Parameter name="user_name" value="Deviprasad" />
   </Connect>
   <Say>This TwiML instruction is unreachable unless the Stream is ended by your WebSocket server.</Say>
 </Response>
