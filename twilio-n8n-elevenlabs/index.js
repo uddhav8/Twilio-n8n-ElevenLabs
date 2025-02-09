@@ -40,6 +40,7 @@ wsServer.on('connection', (ws) => {
             // Handle open event for ElevenLabs WebSocket
             wsElevenLabs.on("open", () => {
                 console.log("[wsElevenLabs] WebSocket connected to ElevenLabs Conversational AI.");
+                console.log("[wsElevenLabs] Sending User Name to Eleven Labs: " + customParameters_user_name);
 
                 // Send required dynamic variables first
                 const initMessage = {
@@ -80,7 +81,7 @@ wsServer.on('connection', (ws) => {
                     switch (msg.type) {
                         case "conversation_initiation_metadata": // Provides initial metadata about the conversation.
                             conversationId = msg.conversation_initiation_metadata_event.conversation_id
-                            console.info(`[ElevenLabs] Received conversation initiation metadata - COnversationID: ${conversationId}`);
+                            console.info(`[ElevenLabs] Received conversation initiation metadata - ConversationID: ${conversationId}`);
                             break;
                         case "user_transcript": // Transcriptions of the user’s speech
                             console.info("[ElevenLabs] Received user transcript.");
