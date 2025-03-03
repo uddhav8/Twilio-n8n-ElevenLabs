@@ -23,7 +23,7 @@ wsServer.on('connection', (ws) => {
 
     // Set up ElevenLabs connection
     //async function setupElevenLabs() {
-    const setupElevenLabs = async (customParameters_user_name) => {
+    const setupElevenLabs = async (user_submission_id, user_submission_time, user_name, user_phone_number, user_email) => {
         try {
             // Connect to ElevenLabs Conversational AI WebSocket
             const signedUrl = await getSignedUrl();
@@ -40,36 +40,29 @@ wsServer.on('connection', (ws) => {
             // Handle open event for ElevenLabs WebSocket
             wsElevenLabs.on("open", () => {
                 console.log("[wsElevenLabs] WebSocket connected to ElevenLabs Conversational AI.");
-                console.log("[wsElevenLabs] Sending User Name to Eleven Labs: " + customParameters_user_name);
+                
+                console.log("[wsElevenLabs] Sending User Submission ID to Eleven Labs: " + user_submission_id);
+                console.log("[wsElevenLabs] Sending User Submission Time to Eleven Labs: " + user_submission_time);
+                console.log("[wsElevenLabs] Sending User Name to Eleven Labs: " + user_name);
+                console.log("[wsElevenLabs] Sending User Phone Number to Eleven Labs: " + user_phone_number);
+                console.log("[wsElevenLabs] Sending User Email to Eleven Labs: " + user_email);
 
-                // Send required dynamic variables first
-                const initMessage = {
-                    dynamic_variables: {
-                        user_name: customParameters_user_name,
-                    }
+                // Send initial configuration
+                const initialConfig = {
+                  type: "conversation_initiation_client_data",
+                  dynamic_variables: {
+                    user_submission_id: user_submission_id,
+                    user_submission_time: user_submission_time,
+                    user_name: user_name,
+                    user_phone_number: user_phone_number,
+                    user_email: user_email,
+                  },
                 };
-
-                wsElevenLabs.send(JSON.stringify(initMessage));
-
-                /*// Send an initial silent audio chunk
-                setTimeout(() => {
-                    if (wsElevenLabs.readyState === WebSocket.OPEN) {
-                        console.log("[wsElevenLabs] Sending initial silent audio to keep connection open.");
-                        const silentAudio = {
-                            type: "audio",
-                            user_audio_chunk: "UklGRgAIAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=",
-                        };
-                        wsElevenLabs.send(JSON.stringify(silentAudio));
-                    }
-                }, 1000); // Delay to allow connection setup
-
-                // ✅ Add Keep-Alive Ping
-                setInterval(() => {
-                    if (wsElevenLabs && wsElevenLabs.readyState === WebSocket.OPEN) {
-                        console.log("[wsElevenLabs] Sending ping to keep connection alive.");
-                        wsElevenLabs.send(JSON.stringify({ type: "ping" }));
-                    }
-                }, 5000); // Ping every 5 seconds*/
+              
+                console.log("[wsElevenLabs] Sending conversation initiation client data:", JSON.stringify(initialConfig));
+                
+                // Send the configuration to ElevenLabs
+                wsElevenLabs.send(JSON.stringify(initialConfig));
             });
 
             // Handle messages from ElevenLabs
@@ -165,14 +158,24 @@ wsServer.on('connection', (ws) => {
                 case "start":
                     streamSid = msg.start.streamSid;
                     callSid = msg.start.callSid;
-                    customParameters = msg.start.customParameters || {};  // Ensure it's an object
+                    customParameters = msg.start.customParameters //|| {};  // Ensure it's an object
+                    const customParameters_user_submission_id = customParameters.user_submission_id || "Unknown";  // Store parameters
+                    const customParameters_user_submission_time = customParameters.user_submission_time || "Unknown";  // Store parameters
                     const customParameters_user_name = customParameters.user_name || "Unknown";  // Store parameters
-
+                    const customParameters_user_phone_number = customParameters.user_phone_number || "Unknown";  // Store parameters
+                    const customParameters_user_email = customParameters.user_email || "Unknown";  // Store parameters
+                
                     console.log(`[Twilio] Stream started - StreamSid: ${streamSid}, CallSid: ${callSid}`);
                     console.log("[Twilio] Custom Parameters:", customParameters);  // Log full object
+                    
+                    console.log(`[Twilio] Extracted User Submission ID: ${customParameters_user_submission_id}`);
+                    console.log(`[Twilio] Extracted User Submission Time: ${customParameters_user_submission_time}`);
                     console.log(`[Twilio] Extracted User Name: ${customParameters_user_name}`);
+                    console.log(`[Twilio] Extracted User Phone Number: ${customParameters_user_phone_number}`);
+                    console.log(`[Twilio] Extracted User Email: ${customParameters_user_email}`);
+                
                     // Start the WebSocket connection to ElevenLabs
-                    setupElevenLabs(customParameters_user_name);
+                    setupElevenLabs(customParameters_user_submission_id, customParameters_user_submission_time, customParameters_user_name, customParameters_user_phone_number, customParameters_user_email);
                     break;
                 case "media":
                     //console.log("[Twilio] Media event received");
